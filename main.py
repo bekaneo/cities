@@ -1,5 +1,4 @@
 from datetime import datetime
-import os
 
 import requests
 from bs4 import BeautifulSoup
@@ -23,18 +22,17 @@ for index, table in enumerate(tables):
             if row.find_all("th"):
                 table_headings = row.find_all("th")
                 for th in table_headings:
-                    # print(th.text)
                     row_data.append(th.text.strip())
                 row_data.append('Link')
             else:
                 link_data = []
-                flags = []
                 table_data = row.find_all("td")
                 count = 0
                 for td in table_data:
                     if count % 18 == 2:
                         try:
-                            row_data.append('https://ru.wikipedia.org/'+str(td.find('a')['href']))
+                            row_data.append('https://ru.wikipedia.org/' + td.find('a')['href'])
+                            continue
                         except TypeError:
                             pass
                     if count % 18 == 0:
@@ -42,6 +40,5 @@ for index, table in enumerate(tables):
                     row_data.append(td.text.strip())
                     count += 1
                 for link in link_data:
-                    row_data.append('https://ru.wikipedia.org/'+link)
-                print(flags)
+                    row_data.append('https://ru.wikipedia.org/' + link)
             writer.writerow(row_data)
