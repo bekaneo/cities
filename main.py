@@ -1,13 +1,14 @@
 from datetime import datetime
+import csv
 from typing import Generator, List
 
 import requests
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
-import csv
+
 
 URL = "https://ru.wikipedia.org/wiki/Города_Киргизии"
-
+WIKIPEDIA = 'https://ru.wikipedia.org/'
 
 def get_response(url: str) -> requests:
     return requests.get(url)
@@ -49,7 +50,7 @@ def get_td(table_data: Generator) -> Generator:
         for td in rows:
             if count % 18 == 2:
                 try:
-                    row_data.append('https://ru.wikipedia.org/' + td.find('a')['href'])
+                    row_data.append(WIKIPEDIA + td.find('a')['href'])
                     continue
                 except TypeError:
                     pass
@@ -58,7 +59,7 @@ def get_td(table_data: Generator) -> Generator:
             row_data.append(td.text.strip())
             count += 1
         for link in link_data:
-            row_data.append('https://ru.wikipedia.org/' + link)
+            row_data.append(WIKIPEDIA + link)
         if row_data:
             yield row_data
 
