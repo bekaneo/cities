@@ -18,7 +18,7 @@ $ python3 -m venv venv
 $ . venv/bin/activate
 
 # Install dependencies
-$ pip install requirements.txt
+$ pip install -r requirements.txt
 
 # Run the app
 $ python3 main.py
